@@ -1,0 +1,11 @@
+C:\C#\Lanchonete\bin\Debug\Lanchonete.exe.config
+C:\C#\Lanchonete\bin\Debug\Lanchonete.exe
+C:\C#\Lanchonete\bin\Debug\Lanchonete.pdb
+C:\C#\Lanchonete\obj\Debug\Lanchonete.csprojAssemblyReference.cache
+C:\C#\Lanchonete\obj\Debug\Lanchonete.FormLogin.resources
+C:\C#\Lanchonete\obj\Debug\Lanchonete.FormSplashScreen.resources
+C:\C#\Lanchonete\obj\Debug\Lanchonete.Properties.Resources.resources
+C:\C#\Lanchonete\obj\Debug\Lanchonete.csproj.GenerateResource.cache
+C:\C#\Lanchonete\obj\Debug\Lanchonete.csproj.CoreCompileInputs.cache
+C:\C#\Lanchonete\obj\Debug\Lanchonete.exe
+C:\C#\Lanchonete\obj\Debug\Lanchonete.pdb
