@@ -8,11 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
+using System.Data.SqlClient;
 
 namespace Lanchonete
 {
     public partial class FormLogin : Form
     {
+        SqlConnection con = new SqlConnection("Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename=C:\\Programas\\Lanchonete\\lanchonete.mdf;Integrated Security = True");
         public FormLogin()
         {
             InitializeComponent();
@@ -29,20 +31,25 @@ namespace Lanchonete
 
         private void btnLogar_Click(object sender, EventArgs e)
         {
-            String login = txtLogin.Text;
-            String senha = txtSenha.Text;
-            if (login == "teste" && senha == "teste")
+            con.Open();
+            String usu = "SELECT login, senha FROM usuario WHERE login = @login and senha = @senha";
+            SqlCommand cmd = new SqlCommand(usu, con);
+            cmd.Parameters.AddWithValue("@login", SqlDbType.NChar).Value = txtLogin.Text.Trim();
+            cmd.Parameters.AddWithValue("@senha", SqlDbType.NChar).Value = txtSenha.Text.Trim();
+            SqlDataReader usuario = cmd.ExecuteReader();
+            if (usuario.HasRows)
             {
+                this.Hide();
                 FormPrincipal principal = new FormPrincipal();
                 principal.Show();
-                this.Hide();
+                con.Close();
             }
             else
             {
                 MessageBox.Show("Login ou Senha incorretos! Tente Novamente.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtLogin.Text = "";
                 txtSenha.Text = "";
-
+                con.Close();
             }
         }
     }

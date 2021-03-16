@@ -38,7 +38,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(246, 137);
+            this.btnCancelar.Location = new System.Drawing.Point(235, 137);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(94, 31);
             this.btnCancelar.TabIndex = 0;
@@ -60,15 +60,16 @@
             // 
             this.txtLogin.Location = new System.Drawing.Point(60, 53);
             this.txtLogin.Name = "txtLogin";
-            this.txtLogin.Size = new System.Drawing.Size(329, 20);
+            this.txtLogin.Size = new System.Drawing.Size(292, 20);
             this.txtLogin.TabIndex = 2;
             // 
             // txtSenha
             // 
             this.txtSenha.Location = new System.Drawing.Point(60, 100);
             this.txtSenha.Name = "txtSenha";
-            this.txtSenha.Size = new System.Drawing.Size(329, 20);
+            this.txtSenha.Size = new System.Drawing.Size(292, 20);
             this.txtSenha.TabIndex = 4;
+            this.txtSenha.UseSystemPasswordChar = true;
             // 
             // lblSenha
             // 
@@ -82,7 +83,7 @@
             // 
             // btnLogar
             // 
-            this.btnLogar.Location = new System.Drawing.Point(102, 137);
+            this.btnLogar.Location = new System.Drawing.Point(84, 137);
             this.btnLogar.Name = "btnLogar";
             this.btnLogar.Size = new System.Drawing.Size(90, 31);
             this.btnLogar.TabIndex = 5;
@@ -94,7 +95,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(476, 202);
+            this.ClientSize = new System.Drawing.Size(407, 202);
             this.Controls.Add(this.btnLogar);
             this.Controls.Add(this.txtSenha);
             this.Controls.Add(this.lblSenha);
