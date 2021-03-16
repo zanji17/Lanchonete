@@ -105,7 +105,7 @@ namespace Lanchonete
             }
             else
             {
-                MessageBox.Show("Login de usuário já cadastrado! Tente Novamente.", "Login já cadastrado", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Produto Não Identificado","Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 con.Close();
             }
         }
