@@ -90,9 +90,9 @@ namespace Lanchonete
         private void cbProduto_SelectedIndexChanged(object sender, EventArgs e)
         {
             con.Open();
-            string pro = "SELECT * FROM Produto WHERE nome = @nome";
+            string pro = "SELECT * FROM Produto WHERE Id = @Id";
             SqlCommand cmd = new SqlCommand(pro, con);
-            cmd.Parameters.AddWithValue("@nome", SqlDbType.NChar).Value = cbProduto.Text.Trim();
+            cmd.Parameters.AddWithValue("@Id", cbProduto.SelectedValue);
             cmd.CommandType = CommandType.Text;
             SqlDataReader produto = cmd.ExecuteReader();
             if (produto.Read())
@@ -108,6 +108,91 @@ namespace Lanchonete
                 MessageBox.Show("Produto Não Identificado","Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 con.Close();
             }
+        }
+
+        private void btnNovoItem_Click(object sender, EventArgs e)
+        {
+            var repetido = false;
+            foreach (DataGridViewRow dr in dgvVenda.Rows)
+            {
+                if (txtIdProduto.Text == Convert.ToString(dr.Cells[0].Value))
+                {
+                    repetido = true;
+                }
+            }
+            if (repetido == false)
+            {
+                DataGridViewRow item = new DataGridViewRow();
+                item.CreateCells(dgvVenda);
+                item.Cells[0].Value = txtIdProduto.Text;
+                item.Cells[1].Value = cbProduto.Text;
+                item.Cells[2].Value = txtQuantidade.Text;
+                item.Cells[3].Value = txtValor.Text;
+                item.Cells[4].Value = Convert.ToDecimal(txtQuantidade.Text) * Convert.ToDecimal(txtValor.Text);
+                dgvVenda.Rows.Add(item);
+                cbProduto.Text = "";
+                txtIdProduto.Text = "";
+                txtQuantidade.Text = "";
+                txtValor.Text = "";
+                decimal soma = 0;
+                foreach (DataGridViewRow dr in dgvVenda.Rows)
+                {
+                    soma += Convert.ToDecimal(dr.Cells[4].Value);
+                }
+                txtTotal.Text = Convert.ToString(soma);
+            }
+            else
+            {
+                MessageBox.Show("Item já está listado na venda!", "Repetição", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }  
+        }
+
+        private void dgvVenda_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewRow row = this.dgvVenda.Rows[e.RowIndex];
+            cbProduto.Text = row.Cells[1].Value.ToString();
+            txtIdProduto.Text = row.Cells[0].Value.ToString();
+            txtQuantidade.Text = row.Cells[2].Value.ToString();
+            txtValor.Text = row.Cells[3].Value.ToString();
+        }
+
+        private void btnEditarItem_Click(object sender, EventArgs e)
+        {
+            int linha = dgvVenda.CurrentRow.Index;
+            dgvVenda.Rows[linha].Cells[0].Value = txtIdProduto.Text;
+            dgvVenda.Rows[linha].Cells[1].Value = cbProduto.Text;
+            dgvVenda.Rows[linha].Cells[2].Value = txtQuantidade.Text;
+            dgvVenda.Rows[linha].Cells[3].Value = txtValor.Text;
+            dgvVenda.Rows[linha].Cells[4].Value = Convert.ToDecimal(txtQuantidade.Text) * Convert.ToDecimal(txtValor.Text);
+            
+            cbProduto.Text = "";
+            txtIdProduto.Text = "";
+            txtQuantidade.Text = "";
+            txtValor.Text = "";
+            decimal soma = 0;
+            foreach (DataGridViewRow dr in dgvVenda.Rows)
+            {
+                soma += Convert.ToDecimal(dr.Cells[4].Value);
+            }
+            txtTotal.Text = Convert.ToString(soma);
+        }
+
+        private void btnExcluirItem_Click(object sender, EventArgs e)
+        {
+            int linha = dgvVenda.CurrentRow.Index;
+            dgvVenda.Rows.RemoveAt(linha);
+            dgvVenda.Refresh();
+
+            cbProduto.Text = "";
+            txtIdProduto.Text = "";
+            txtQuantidade.Text = "";
+            txtValor.Text = "";
+            decimal soma = 0;
+            foreach (DataGridViewRow dr in dgvVenda.Rows)
+            {
+                soma += Convert.ToDecimal(dr.Cells[4].Value);
+            }
+            txtTotal.Text = Convert.ToString(soma);
         }
     }
 }

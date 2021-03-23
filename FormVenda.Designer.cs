@@ -92,6 +92,7 @@ namespace Lanchonete
             this.dgvVenda.Name = "dgvVenda";
             this.dgvVenda.Size = new System.Drawing.Size(534, 150);
             this.dgvVenda.TabIndex = 4;
+            this.dgvVenda.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVenda_CellClick);
             // 
             // lblId
             // 
@@ -194,6 +195,7 @@ namespace Lanchonete
             this.btnNovoItem.TabIndex = 16;
             this.btnNovoItem.Text = "Novo Item";
             this.btnNovoItem.UseVisualStyleBackColor = true;
+            this.btnNovoItem.Click += new System.EventHandler(this.btnNovoItem_Click);
             // 
             // btnEditarItem
             // 
@@ -203,6 +205,7 @@ namespace Lanchonete
             this.btnEditarItem.TabIndex = 17;
             this.btnEditarItem.Text = "Editar Item";
             this.btnEditarItem.UseVisualStyleBackColor = true;
+            this.btnEditarItem.Click += new System.EventHandler(this.btnEditarItem_Click);
             // 
             // btnExcluirItem
             // 
@@ -212,6 +215,7 @@ namespace Lanchonete
             this.btnExcluirItem.TabIndex = 18;
             this.btnExcluirItem.Text = "Excluir Item";
             this.btnExcluirItem.UseVisualStyleBackColor = true;
+            this.btnExcluirItem.Click += new System.EventHandler(this.btnExcluirItem_Click);
             // 
             // FormVenda
             // 
