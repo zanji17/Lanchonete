@@ -8,29 +8,53 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using CodificacaoBase64;
 
 namespace Lanchonete
 {
     public partial class FormUsuario : Form
     {
+        private Cripto b;
         SqlConnection con = new SqlConnection("Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename=C:\\Programas\\Lanchonete\\lanchonete.mdf;Integrated Security = True");
         public FormUsuario()
         {
             InitializeComponent();
+            b = new Cripto();
         }
         public void CarregaDGV()
         {
             String str = "Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename=C:\\Programas\\Lanchonete\\lanchonete.mdf;Integrated Security = True";
             String Query = "SELECT * FROM Usuario";
             SqlConnection con = new SqlConnection(str);
-            SqlCommand cmd = new SqlCommand(Query, con);
             con.Open();
+            SqlCommand cmd = new SqlCommand(Query, con);
             cmd.CommandType = CommandType.Text;
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable usuario = new DataTable();
             da.Fill(usuario);
-            dgvUsuario.DataSource = usuario;
-            con.Close();
+            int linhas = usuario.Rows.Count;
+            if (usuario.Rows.Count > 0)
+            {
+                dgvUsuario.Columns.Add("ID", "ID");
+                dgvUsuario.Columns.Add("Nome", "Nome");
+                dgvUsuario.Columns.Add("Cargo", "Cargo");
+                dgvUsuario.Columns.Add("Admissão", "Admissão");
+                dgvUsuario.Columns.Add("Login", "Login");
+                dgvUsuario.Columns.Add("Senha", "Senha");
+                for (int i = 0; i < linhas; i++)
+                {
+                    DataGridViewRow usuarios = new DataGridViewRow();
+                    usuarios.CreateCells(dgvUsuario);
+                    usuarios.Cells[0].Value = usuario.Rows[i]["Id"].ToString();
+                    usuarios.Cells[1].Value = usuario.Rows[i]["nome"].ToString();
+                    usuarios.Cells[2].Value = usuario.Rows[i]["cargo"].ToString();
+                    usuarios.Cells[3].Value = usuario.Rows[i]["admissao"].ToString();
+                    usuarios.Cells[4].Value = usuario.Rows[i]["login"].ToString();
+                    usuarios.Cells[5].Value = b.Base64Decode(usuario.Rows[i]["senha"].ToString());
+                    dgvUsuario.Rows.Add(usuarios);
+                }
+                con.Close();
+            }
         }
 
         private void FormUsuario_Load(object sender, EventArgs e)
@@ -49,7 +73,7 @@ namespace Lanchonete
                 cmd.Parameters.AddWithValue("@cargo", SqlDbType.NChar).Value = txtCargo.Text.Trim();
                 cmd.Parameters.AddWithValue("@admissao", SqlDbType.Date).Value = dtpAdmissao.Value;
                 cmd.Parameters.AddWithValue("@login", SqlDbType.NChar).Value = txtLogin.Text.Trim();
-                cmd.Parameters.AddWithValue("@senha", SqlDbType.NChar).Value = txtSenha.Text.Trim();
+                cmd.Parameters.AddWithValue("@senha", SqlDbType.NChar).Value = b.Base64Encode(txtSenha.Text.Trim());
                 cmd.ExecuteNonQuery();
                 CarregaDGV();
                 MessageBox.Show("Usuario Cadastrado com Sucesso!", "Cadastro", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -78,7 +102,7 @@ namespace Lanchonete
                 cmd.Parameters.AddWithValue("@cargo", SqlDbType.NChar).Value = txtCargo.Text.Trim();
                 cmd.Parameters.AddWithValue("@admissao", SqlDbType.Date).Value = dtpAdmissao.Value;
                 cmd.Parameters.AddWithValue("@login", SqlDbType.NChar).Value = txtLogin.Text.Trim();
-                cmd.Parameters.AddWithValue("@senha", SqlDbType.NChar).Value = txtSenha.Text.Trim();
+                cmd.Parameters.AddWithValue("@senha", SqlDbType.NChar).Value = b.Base64Encode(txtSenha.Text.Trim());
                 cmd.ExecuteNonQuery();
                 CarregaDGV();
                 MessageBox.Show("Usuario Atualizado com Sucesso!", "Atualização", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -133,7 +157,7 @@ namespace Lanchonete
                     txtNome.Text = rd["nome"].ToString();
                     txtCargo.Text = rd["cargo"].ToString();
                     txtLogin.Text = rd["login"].ToString();
-                    txtSenha.Text = rd["senha"].ToString();
+                    txtSenha.Text = b.Base64Decode(rd["senha"].ToString());
                     dtpAdmissao.Value = Convert.ToDateTime(rd["admissao"]);
                     con.Close();
                 }

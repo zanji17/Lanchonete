@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cripto.cs" />
     <Compile Include="FormVenda.cs">
       <SubType>Form</SubType>
     </Compile>

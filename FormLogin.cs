@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 using System.Data.SqlClient;
+using CodificacaoBase64;
 
 namespace Lanchonete
 {
     public partial class FormLogin : Form
     {
+        private Cripto b;
         SqlConnection con = new SqlConnection("Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename=C:\\Programas\\Lanchonete\\lanchonete.mdf;Integrated Security = True");
         public FormLogin()
         {
@@ -22,6 +24,7 @@ namespace Lanchonete
             formSplash.Show();
             Thread.Sleep(3000);
             formSplash.Close();
+            b = new Cripto();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -35,7 +38,7 @@ namespace Lanchonete
             String usu = "SELECT login, senha FROM usuario WHERE login = @login and senha = @senha";
             SqlCommand cmd = new SqlCommand(usu, con);
             cmd.Parameters.AddWithValue("@login", SqlDbType.NChar).Value = txtLogin.Text.Trim();
-            cmd.Parameters.AddWithValue("@senha", SqlDbType.NChar).Value = txtSenha.Text.Trim();
+            cmd.Parameters.AddWithValue("@senha", SqlDbType.NChar).Value = b.Base64Encode(txtSenha.Text.Trim());
             SqlDataReader usuario = cmd.ExecuteReader();
             if (usuario.HasRows)
             {
